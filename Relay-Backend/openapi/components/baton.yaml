@@ -1,0 +1,220 @@
+Baton:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+    project_id:
+      type: integer
+    team_id:
+      type: integer
+      nullable: true
+    project_name:
+      type: string
+      nullable: true
+    owner_id:
+      type: integer
+    owner_name:
+      type: string
+      nullable: true
+    successor_ids:
+      type: array
+      items:
+        type: integer
+      nullable: true
+    title:
+      type: string
+    description:
+      type: string
+      nullable: true
+    detailed_context:
+      type: string
+      nullable: true
+    implementation_state:
+      type: string
+      nullable: true
+    repo_link:
+      type: string
+      nullable: true
+    branch_name:
+      type: string
+      nullable: true
+    daily_logs:
+      type: array
+      items:
+        $ref: "#/DailyLogEntry"
+      nullable: true
+    additional_resources:
+      type: array
+      items:
+        type: object
+        additionalProperties: true
+      nullable: true
+    baton_status:
+      type: string
+    lifecycle_stage:
+      type: string
+    risk_label:
+      type: string
+    risk_score:
+      type: integer
+    documentation_completeness:
+      type: integer
+    dependencies:
+      type: string
+      nullable: true
+    related_systems:
+      type: string
+      nullable: true
+    troubleshooting_notes:
+      type: string
+      nullable: true
+    reconstruction_time:
+      type: integer
+      nullable: true
+  required:
+    - id
+    - created_at
+    - updated_at
+    - project_id
+    - owner_id
+    - title
+    - baton_status
+    - lifecycle_stage
+    - risk_label
+    - risk_score
+    - documentation_completeness
+
+DailyLogEntry:
+  type: object
+  properties:
+    date:
+      type: string
+      format: date
+      example: 2026-04-04
+    note:
+      type: string
+    author:
+      type: string
+      nullable: true
+  required:
+    - date
+    - note
+
+BatonUpdate:
+  type: object
+  properties:
+    owner_id:
+      type: integer
+      nullable: true
+    successor_ids:
+      type: array
+      items:
+        type: integer
+      nullable: true
+    title:
+      type: string
+      nullable: true
+    description:
+      type: string
+      nullable: true
+    detailed_context:
+      type: string
+      nullable: true
+    implementation_state:
+      type: string
+      nullable: true
+    dependencies:
+      type: string
+      nullable: true
+    related_systems:
+      type: string
+      nullable: true
+    troubleshooting_notes:
+      type: string
+      nullable: true
+    reconstruction_time:
+      type: integer
+      nullable: true
+    repo_link:
+      type: string
+      nullable: true
+    branch_name:
+      type: string
+      nullable: true
+    daily_logs:
+      type: array
+      items:
+        $ref: "#/DailyLogEntry"
+      nullable: true
+    additional_resources:
+      type: array
+      items:
+        type: object
+        additionalProperties: true
+      nullable: true
+    baton_status:
+      type: string
+      nullable: true
+
+BatonCreate:
+  type: object
+  properties:
+    project_id:
+      type: integer
+      example: 1
+    owner_id:
+      type: integer
+    title:
+      type: string
+    baton_status:
+      type: string
+    successor_ids:
+      type: array
+      items:
+        type: integer
+      nullable: true
+    description:
+      type: string
+      nullable: true
+    detailed_context:
+      type: string
+      nullable: true
+    implementation_state:
+      type: string
+      nullable: true
+    dependencies:
+      type: string
+      nullable: true
+    related_systems:
+      type: string
+      nullable: true
+    troubleshooting_notes:
+      type: string
+      nullable: true
+    reconstruction_time:
+      type: integer
+      nullable: true
+    repo_link:
+      type: string
+      nullable: true
+    branch_name:
+      type: string
+      nullable: true
+    additional_resources:
+      type: array
+      items:
+        type: object
+        additionalProperties: true
+      nullable: true
+  required:
+    - project_id
+    - owner_id
+    - title
+    - baton_status

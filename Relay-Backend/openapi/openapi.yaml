@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Relay API
+  description: Relay backend API
+  version: 1.0.0
+tags:
+  - name: System
+  - name: Auth
+  - name: Batons
+  - name: Teams
+  - name: Divisions
+  - name: Persons
+paths:
+  /:
+    get:
+      tags:
+        - System
+      summary: Root
+      operationId: root__get
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: login_auth_login_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./components/auth.yaml#/LoginRequest"
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/auth.yaml#/LoginResponse"
+        "401":
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/Error"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /batons:
+    get:
+      tags:
+        - Batons
+      summary: List Batons
+      operationId: list_batons_batons_get
+      parameters:
+        - name: owner_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+        - name: project_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+        - name: team_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./components/baton.yaml#/Baton"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+    post:
+      tags:
+        - Batons
+      summary: Create Baton
+      operationId: create_baton_batons_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./components/baton.yaml#/BatonCreate"
+      responses:
+        "201":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/baton.yaml#/Baton"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /batons/{baton_id}:
+    get:
+      tags:
+        - Batons
+      summary: Get Baton
+      operationId: get_baton_batons__baton_id__get
+      parameters:
+        - name: baton_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/baton.yaml#/Baton"
+        "404":
+          description: Baton not found
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/Error"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+    patch:
+      tags:
+        - Batons
+      summary: Update Baton
+      operationId: update_baton_batons__baton_id__patch
+      parameters:
+        - name: baton_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./components/baton.yaml#/BatonUpdate"
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/baton.yaml#/Baton"
+        "404":
+          description: Baton not found
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/Error"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /teams/risk:
+    get:
+      tags:
+        - Teams
+      summary: Get Team Risk
+      operationId: get_team_risk_teams_risk_get
+      parameters:
+        - name: team_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./components/team.yaml#/TeamRiskResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /division/risk:
+    get:
+      tags:
+        - Divisions
+      summary: Get Division Risk
+      operationId: get_division_risk_division_risk_get
+      parameters:
+        - name: division_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./components/division.yaml#/DivisionRiskResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /people:
+    get:
+      tags:
+        - Persons
+      summary: List People
+      operationId: list_people_people_get
+      parameters:
+        - name: team_id
+          in: query
+          required: false
+          schema:
+            type: integer
+            nullable: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./components/person.yaml#/PersonResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+  /person/{person_id}:
+    get:
+      tags:
+        - Persons
+      summary: Get Person
+      operationId: get_person_person__person_id__get
+      parameters:
+        - name: person_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/person.yaml#/PersonResponse"
+        "404":
+          description: Person not found
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/Error"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"
+    patch:
+      tags:
+        - Persons
+      summary: Update Person
+      operationId: update_person_person__person_id__patch
+      parameters:
+        - name: person_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./components/person.yaml#/PersonUpdate"
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "./components/person.yaml#/PersonResponse"
+        "404":
+          description: Person not found
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/Error"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "./components/common.yaml#/HTTPValidationError"

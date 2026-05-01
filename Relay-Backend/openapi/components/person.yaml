@@ -1,0 +1,30 @@
+PersonResponse:
+  type: object
+  properties:
+    id:
+      type: integer
+    name:
+      type: string
+    username:
+      type: string
+    role:
+      type: string
+    team_id:
+      type: integer
+    in_office:
+      type: boolean
+  required:
+    - id
+    - name
+    - username
+    - role
+    - team_id
+    - in_office
+
+PersonUpdate:
+  type: object
+  properties:
+    in_office:
+      type: boolean
+  required:
+    - in_office

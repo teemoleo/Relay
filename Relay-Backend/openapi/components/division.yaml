@@ -1,0 +1,22 @@
+DivisionRiskResponse:
+  type: object
+  properties:
+    division_id:
+      type: integer
+    division_name:
+      type: string
+    staff_availability_percentage:
+      type: integer
+    batons_ready_for_handover:
+      type: integer
+    batons_unassigned:
+      type: integer
+    overall_risk_score:
+      type: integer
+  required:
+    - division_id
+    - division_name
+    - staff_availability_percentage
+    - batons_ready_for_handover
+    - batons_unassigned
+    - overall_risk_score

@@ -1,0 +1,34 @@
+TeamRiskResponse:
+  type: object
+  properties:
+    team_id:
+      type: integer
+    team_name:
+      type: string
+    division_id:
+      type: integer
+    division_name:
+      type: string
+    staff_availability_percentage:
+      type: integer
+    unassigned_baton_count:
+      type: integer
+    total_baton_count:
+      type: integer
+    unassigned_baton_percentage:
+      type: integer
+    delivery_delay_risk:
+      type: string
+    overall_risk_score:
+      type: integer
+  required:
+    - team_id
+    - team_name
+    - division_id
+    - division_name
+    - staff_availability_percentage
+    - unassigned_baton_count
+    - total_baton_count
+    - unassigned_baton_percentage
+    - delivery_delay_risk
+    - overall_risk_score

@@ -1,0 +1,154 @@
+// Provides shared metric card primitives
+import type { ReactElement } from 'react'
+import { cn } from '../../components/ui/cn'
+import { insightCardFrameClassName } from './insightCardStyles'
+import type { InsightVariant } from './types'
+
+export type { InsightVariant } from './types'
+
+type InsightStatCardProps = {
+  label: string
+  value: string
+  variant: InsightVariant
+  className?: string
+}
+
+type InsightIconComponent = (props: { className?: string }) => ReactElement
+
+// Icon signals healthy status
+function IconSuccess({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  )
+}
+
+// Icon signals warning state
+function IconWarning({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+      />
+    </svg>
+  )
+}
+
+// Icon signals high risk
+function IconAlarm({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  )
+}
+
+// Icon is used when data is informational or does not map to risk thresholds
+function IconNeutral({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      aria-hidden
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 12h7.5" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"
+      />
+    </svg>
+  )
+}
+
+const shell: Record<InsightVariant, { iconBg: string; iconInk: string }> = {
+  success: {
+    iconBg: 'bg-emerald-100/80',
+    iconInk: 'text-emerald-700',
+  },
+  warning: {
+    iconBg: 'bg-amber-100/80',
+    iconInk: 'text-amber-800',
+  },
+  danger: {
+    iconBg: 'bg-rose-100/85',
+    iconInk: 'text-rose-700',
+  },
+  neutral: {
+    iconBg: 'bg-slate-100/90',
+    iconInk: 'text-slate-600',
+  },
+}
+
+const iconByVariant: Record<InsightVariant, InsightIconComponent> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  danger: IconAlarm,
+  neutral: IconNeutral,
+}
+
+// Keeps icon presentation consistent
+export function InsightIconTile({ variant, className }: { variant: InsightVariant; className?: string }) {
+  const s = shell[variant]
+  const Icon = iconByVariant[variant]
+  return (
+    <div
+      className={cn(
+        'flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]',
+        s.iconBg,
+        className,
+      )}
+    >
+      <Icon className={cn('h-6 w-6', s.iconInk)} />
+    </div>
+  )
+}
+
+// Pairs labels into in a compact card
+export function InsightStatCard({ label, value, variant, className }: InsightStatCardProps) {
+  return (
+    <div className={insightCardFrameClassName(variant, className)}>
+      <InsightIconTile variant={variant} />
+      <div className="min-w-0 flex-1">
+        <p className="text-3xl font-semibold tabular-nums tracking-tight text-slate-900">{value}</p>
+        <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">{label}</p>
+      </div>
+    </div>
+  )
+}
