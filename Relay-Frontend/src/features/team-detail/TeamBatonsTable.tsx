@@ -63,7 +63,7 @@ export function TeamBatonsTable({ batons, teamId, preselectedStaff = '', onStaff
     return unique
   }, [batons])
 
-  // Handles filtered + sorted batons
+  // Handles filtered and sorted batons
   const filteredBatons = useMemo(() => {
     const filtered = batons.filter((baton) => {
       if (riskFilter && baton.risk !== riskFilter) return false
